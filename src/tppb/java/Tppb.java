@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Tppb extends Plugin
 {
-    public static Tppb instance;
+    private static Tppb instance;
 
     public static Tppb getInstance()
     {
@@ -23,9 +23,8 @@ public class Tppb extends Plugin
     public void onEnable()
     {
         instance = this;
-        getLogger().info("Yay! It loads!");
-        getProxy().getPluginManager().registerCommand(this, new TeleportPlayerCommand());
         BungeeCord.getInstance().registerChannel("tppbc");
+        getProxy().getPluginManager().registerCommand(this, new TeleportPlayerCommand());
     }
 
     public void sendToServer(String channel, String msg, ServerInfo info)
