@@ -1,0 +1,7 @@
+0:
+  name: 'test'
+  server: 'test'
+  world: 'world'
+  x: 100
+  y: 100
+  z: 100

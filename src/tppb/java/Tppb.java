@@ -5,6 +5,8 @@ import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 import tppb.java.commands.TeleportPlayerCommand;
+import tppb.java.commands.TeleportRegionCommand;
+import tppb.java.regions.RegionManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -24,7 +26,9 @@ public class Tppb extends Plugin
     {
         instance = this;
         BungeeCord.getInstance().registerChannel("tppbc");
+        RegionManager.loadregions();
         getProxy().getPluginManager().registerCommand(this, new TeleportPlayerCommand());
+        getProxy().getPluginManager().registerCommand(this, new TeleportRegionCommand());
     }
 
     public void sendToServer(String channel, String msg, ServerInfo info)

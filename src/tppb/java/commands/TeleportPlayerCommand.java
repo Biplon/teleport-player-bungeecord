@@ -12,19 +12,22 @@ public class TeleportPlayerCommand extends Command
 {
     public TeleportPlayerCommand()
     {
-        super("tppb");
+        super("tppbc");
     }
 
     @Override
     public void execute(CommandSender commandSender, String[] args)
     {
-        if (args.length == 6)
+        if (commandSender.hasPermission("tppb.coords"))
         {
-            ServerInfo target = ProxyServer.getInstance().getServerInfo(args[0]);
-            ProxiedPlayer player = BungeeCord.getInstance().getPlayer(args[1]);
-            String values = args[1] + "," + args[2] + "," + args[3] + "," + args[4] + "," + args[5];
-            player.connect(target);
-            Tppb.getInstance().sendToServer("tppbc:main", values, target);
+            if (args.length == 6)
+            {
+                ServerInfo target = ProxyServer.getInstance().getServerInfo(args[0]);
+                ProxiedPlayer player = BungeeCord.getInstance().getPlayer(args[1]);
+                String values = args[1] + "," + args[2] + "," + args[3] + "," + args[4] + "," + args[5];
+                player.connect(target);
+                Tppb.getInstance().sendToServer("tppbc:main", values, target);
+            }
         }
     }
 
