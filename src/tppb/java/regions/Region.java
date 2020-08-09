@@ -14,7 +14,9 @@ public class Region
 
     public final int z;
 
-    public Region(String name,String world,String server,int x, int y, int z)
+    public boolean enabled;
+
+    public Region(String name,String world,String server,int x, int y, int z,boolean enabled)
     {
         this.name = name;
         this.world = world;
@@ -22,5 +24,6 @@ public class Region
         this.x = x;
         this.y = y;
         this.z = z;
+        this.enabled = enabled;
     }
 }

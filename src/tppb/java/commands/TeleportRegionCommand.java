@@ -25,7 +25,7 @@ public class TeleportRegionCommand extends Command
             if (args.length == 2)
             {
                 Region r = RegionManager.getRegion(args[1]);
-                if (r != null)
+                if (r != null && r.enabled)
                 {
                     ProxiedPlayer player = BungeeCord.getInstance().getPlayer(args[0]);
                     ServerInfo target = ProxyServer.getInstance().getServerInfo(r.server);

@@ -2,6 +2,7 @@
   name: 'test'
   server: 'test'
   world: 'world'
+  enabled: true
   x: 100
   y: 100
   z: 100

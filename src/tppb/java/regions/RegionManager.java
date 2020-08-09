@@ -1,14 +1,9 @@
 package tppb.java.regions;
 
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
+
 import tppb.java.Tppb;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,40 +20,98 @@ public class RegionManager
                 Tppb.getInstance().getDataFolder().mkdir();
             }
 
-            File file = new File(Tppb.getInstance().getDataFolder(), "region.yml");
-
+            File file = new File( "plugins" + File.separator + "TPPB" + File.separator + "region.txt");
             if (!file.exists())
             {
-                try (InputStream in = RegionManager.class.getResourceAsStream("region.yml"))
-                {
-                    Files.copy(in, file.toPath());
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
+                file.mkdir();
             }
+            BufferedReader reader = null;
 
-            Configuration configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(Tppb.getInstance().getDataFolder(), "region.yml"));
-            boolean next = true;
-            int counter = 0;
-            while (next)
+            reader = new BufferedReader(new FileReader(file));
+            String text = null;
+            while ((text = reader.readLine()) != null)
             {
-                if (!configuration.getString(""+counter+".name").equals(""))
-                {
-                    regions.add(new Region(configuration.getString(""+counter+".name"),configuration.getString(""+counter+".world"),configuration.getString(""+counter+".server"),configuration.getInt(""+counter+".x"),configuration.getInt(""+counter+".y"),configuration.getInt(""+counter+".z")));
-                    counter++;
-                }
-                else
-                {
-                    next = false;
-                }
+                String[] tmp = text.split(",");
+                regions.add(new Region(tmp[0],tmp[1],tmp[2],Integer.parseInt(tmp[3]),Integer.parseInt(tmp[4]),Integer.parseInt(tmp[5]),Boolean.parseBoolean(tmp[6])));
             }
+            reader.close();
         }
         catch (Exception ec)
         {
             ec.getMessage();
         }
+    }
+
+    public static void createRegion(String name,String world,String server,int x,int y,int z,boolean active)
+    {
+        regions.add(new Region(name,world,server,x,y,z,active));
+        saveRegions();
+    }
+
+    public static void deleteRegion(String regionname)
+    {
+        Region rd = null;
+        for (Region r: regions)
+        {
+            if (r.name.equals(regionname))
+            {
+                rd = r;
+                break;
+            }
+        }
+        regions.remove(rd);
+        saveRegions();
+    }
+
+    public static void disableRegion(String regionname)
+    {
+        for (Region r: regions)
+        {
+            if (r.name.equals(regionname))
+            {
+                r.enabled = false;
+            }
+        }
+        saveRegions();
+    }
+
+    public static void enableRegion(String regionname)
+    {
+        for (Region r: regions)
+        {
+            if (r.name.equals(regionname))
+            {
+                r.enabled = true;
+                break;
+            }
+        }
+        saveRegions();
+    }
+
+    private static void saveRegions()
+    {
+        try
+        {
+            File file = new File( "plugins" + File.separator + "TPPB" + File.separator + "region.txt");
+            StringBuffer contents = new StringBuffer();
+            BufferedWriter writer = null;
+
+            writer = new BufferedWriter(new FileWriter(file,false));
+            String text = null;
+            for (Region r: regions)
+            {
+                writer.write(r.name +"," +r.world+"," +r.server+"," +r.x+"," +r.y+"," +r.z+"," +r.enabled);
+                writer.newLine();
+            }
+            writer.close();
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
     }
 
     public static Region getRegion(String name)
