@@ -10,7 +10,7 @@ tppb.coords<br/>
 /tppbc servername playername x y z world <br/>
 tppb.region<br/>
 /tppbr playername region <br/>
-tppb.adminn<br/>
+tppb.admin<br/>
 /tppba show<br/>
 /tppba show regionname<br/>
 /tppba disable regionname<br/>
